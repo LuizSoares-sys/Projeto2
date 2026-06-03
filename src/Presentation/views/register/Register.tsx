@@ -1,8 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, Platform, ToastAndroid } from 'react-native';
 import { Color } from "../../theme/AppTheme";
+import { RoundedButton } from "../../Components/RoundedButton";
 
 export const RegisterScreen = () => {
+
+    const testOS = () => {
+        if(Platform.OS === 'android'){
+            ToastAndroid.show('Testando o Cadastro! - Android', ToastAndroid.SHORT)
+        }
+    }
   return (
     <View style={styles.container}>
       <Image
@@ -103,9 +110,10 @@ export const RegisterScreen = () => {
         </View>
 
         <TouchableOpacity style={styles.btnRegister}>
-          <Text style={styles.btnRegisterText}>
-            Cadastre-se
-          </Text>
+          <RoundedButton
+            text="Cadastre-se"
+            onPress={testOS}
+          />
         </TouchableOpacity>
       </View>
     </View>
