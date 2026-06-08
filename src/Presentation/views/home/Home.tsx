@@ -1,9 +1,23 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, TextInput, Button, ToastAndroid, Platform, Alert } from 'react-native';
-import { RoundedButton } from "../../Components/RoundedButton";
+import React, {useState} from "react";
+import { StyleSheet, View, Text, Image, TextInput, Button, ToastAndroid, Alert, Platform, Touchable, TouchableOpacity, KeyboardType } from 'react-native';
+
+// importação dos elementos de navegação
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../../App";
+import { useNavigation } from "@react-navigation/native";
+
+//componentes
 import { Color } from "../../theme/AppTheme";
+import { CustomTextInput } from "../../Components/CustomTextInput";
+import { RoundedButton } from "../../Components/RoundedButton";
+//views models
+import useViewModel from './ViewModel';
 
 export const HomeScreen = () => {
+
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const {userEmail, userPassword, onChange, login} = useViewModel();
 
   const testOS = () => {
     if(Platform.OS === 'android'){
@@ -26,52 +40,48 @@ export const HomeScreen = () => {
   return(
 <View style={styles.container}>
       <Image style = {styles.imageFundo}
-        source={require('../../../../assets/bg-smartphone.jpg')}/>
+        source={require("../../../../assets/bg-smartphone.jpg")}/>
 
       <View style={styles.logoContainer}>
       <Image
         style={styles.logoImg}
         source={require("../../../../assets/img/logo.png")}
       />
-      <View style={styles.logoTxtContainer} >
-        <Text style={ styles.logoTxt} >
+        <View style={styles.logoTxtContainer} >
+          <Text style={ styles.logoTxt} >
           Restaurante | Pizzaria Tito 😋
-        </Text>
-      </View>
+          </Text>
+        </View>
       </View>
     <View style={styles.frm}>      
       <Text style={ styles.frmTitle} >
-        Entrar ⭐
+        Entrar
       </Text>
-      <View style={styles.frmInput}>
 
-        <Image 
-        style={ styles.frmicon} 
-        source = { require("../../../../assets/img/user.png") }/>
-        
-        <TextInput 
-        style={styles.txtInput} 
-        placeholder="Digite seu email / Usuário" 
-        keyboardType='email-address'
-        />
-</View>   
-      <View style={styles.frmInput}>
+      <CustomTextInput
+      image={require('../../../../assets/img/user.png')}
+      placeholder="Digite seu Email / Usuario..."
+      keyboardType="email-address"
+      secureTextEntry={false}
+      property="userEmail"
+      onChangeText={onChange}
+      value={userEmail}
+      />
 
-        <Image 
-        style={ styles.frmicon} 
-        source = { require("../../../../assets/img/password.png") }/>
-        
-        <TextInput 
-        style={styles.txtInput}
-        placeholder="Digite sua senha..." 
-        keyboardType="default"
-        secureTextEntry={true}
-        />
-        </View>
+      <CustomTextInput
+      image={require('../../../../assets/img/password.png')}
+      placeholder="Digite sua senha..."
+      keyboardType="default"
+      secureTextEntry={true}
+      property="userPassword"
+      onChangeText={onChange}
+      value={userPassword}
+      />
+      
         <View style={styles.btnEntrar }>
           <RoundedButton
           text="Entrar"
-          onPress={testOS}
+          onPress={ () => login() }
           //onPress={() => ToastAndroid.show('Entrando...', ToastAndroid.SHORT)}
           />
         </View>
@@ -79,9 +89,23 @@ export const HomeScreen = () => {
           <Text>
             Crie sua conta
           </Text>
-          <Text style={styles.txtRegister}> 
-            Registre-se
-          </Text>
+
+          <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+            <Text style={styles.txtRegister}> 
+              Registre-se
+            </Text>
+          </TouchableOpacity>
+
+          <Text> 👈</Text>
+          
+          <TouchableOpacity onPress={() => navigation.navigate('RecuperarSenha')}>
+            <Text style={styles.txtRegister}> 
+              Recuperar senha
+            </Text>
+          </TouchableOpacity>
+
+          <Text> 👈</Text>
+
         </View>
       </View>
     </View>  
@@ -117,13 +141,12 @@ const styles = StyleSheet.create({
   logoTxtContainer:{
     width: '110%',
     height: 50,
-    backgroundColor: '#000',
     marginTop: 15,
     borderRadius: 15,
     opacity: 0.85,        
   },
   logoTxt:{
-    color: Color.primary,
+    color: Color.bgColor,
     textAlign: 'center',
     fontSize: 26,
     fontWeight: 'bold',
@@ -140,23 +163,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   frmTitle:{
-    fontSize: 35,
+    fontSize: 24,
     fontWeight: 'bold',
-    alignSelf: 'center',
-  },
-  frmInput:{
-    flexDirection: 'row',
-    marginTop:30,
-  },
-  frmicon:{
-    width: 25,
-    height: 25,
-    marginTop: 10,
-  },
-  txtInput:{
-    flex: 1,
-    borderBottomWidth: 2,
-    marginLeft: 15,
   },
   btnEntrar:{
     alignSelf: 'center',
