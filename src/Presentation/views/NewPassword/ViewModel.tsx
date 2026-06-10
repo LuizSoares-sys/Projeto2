@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
-const RecuperarViewModel = () => {
+const NewViewModel = () => {
 
     const [values, setValues] = useState({
+        userToken: '',
         userEmail: '',
+        userNewPassword: '',
+        userConfirmePassword: '',
     });
 
     const onChange = (property: string, value: any) => {
@@ -11,8 +14,8 @@ const RecuperarViewModel = () => {
     }
 
     const login = () => {
-        const { userEmail } = values;
-        console.log(JSON.stringify(values))
+       // const { userToken, userEmail, userNewPassword, userConfirmePassword } = values;
+        console.log(JSON.stringify(values));
     }
     return {
         ...values,
@@ -22,4 +25,4 @@ const RecuperarViewModel = () => {
 
 }
 
-export default RecuperarViewModel
+export default NewViewModel

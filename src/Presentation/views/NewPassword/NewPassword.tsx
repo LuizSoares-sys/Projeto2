@@ -1,64 +1,101 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, } from 'react-native';
+import { StyleSheet, View, Text, Image, ToastAndroid, Platform } from 'react-native';
 
 //importação dos elementos de navegação
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./../../../../App";
 //componentes
-import { Color } from "../../theme/AppTheme";
+import { Color } from "./../../theme/AppTheme";
 import { CustomTextInput } from "../../Components/CustomTextInput";
 import { RoundedButton } from '../../Components/RoundedButton'
+//views models
+import NewViewModel from "./ViewModel";
 
-import RecuperarViewModel from './ViewModel';
+export const RecieveNewPassword = () => {
 
-export const RecuperarScreen = () => {
+  const { userToken, userConfirmePassword, userEmail, userNewPassword, onChange, login } = NewViewModel();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const { userEmail, onChange, login } = RecuperarViewModel();
+  const OS = () => {
+    if (Platform.OS === 'android') {
+
+      ToastAndroid.show('Cadastro feito! - Android', ToastAndroid.SHORT)
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Image style={styles.imageFundo}
-        source={require('../../../../assets/img/city.jpg')} />
+        source={require('../../../../assets/img/chef.jpg')} />
 
       <View style={styles.logoContainer}>
         <Image
           style={styles.logoImg}
-          source={require("../../../../assets/img/password.png")}
+          source={require("../../../../assets/img/user_menu.png")}
         />
         <View style={styles.logoTxtContainer} >
           <Text style={styles.logoTxt} >
-            Recuperar senha
+            Recuperar Senha
           </Text>
         </View>
       </View>
       <View style={styles.frm}>
         <Text style={styles.frmTitle} >
-          Recuperar senha
+          Recuperar Senha
         </Text>
 
         <Text style={styles.ftmInfo}>
-          Digite seu email e uma nova senha para receber um token no seu email
+          Digite seu email e uma nova senha para enviarmos um token para o email requerido
         </Text>
 
         <CustomTextInput
-          image={require('../../../../assets/img/user.png')}
-          placeholder="Digite seu Email"
+          image={require('../../../../assets/img/price.png')}
+          placeholder="Digite o Token recebido"
           keyboardType="default"
+          secureTextEntry={false}
+          property="userToken"
+          onChangeText={onChange}
+          value={userToken}
+        />
+
+        <CustomTextInput
+          image={require('../../../../assets/img/user.png')}
+          placeholder="Digite seu Email / Usuario..."
+          keyboardType="email-address"
           secureTextEntry={false}
           property="userEmail"
           onChangeText={onChange}
           value={userEmail}
         />
 
+        <CustomTextInput
+          image={require('../../../../assets/img/password.png')}
+          placeholder="Digite sua Nova senha..."
+          keyboardType="default"
+          secureTextEntry={true}
+          property="userNewPassword"
+          onChangeText={onChange}
+          value={userNewPassword}
+        />
+
+        <CustomTextInput
+          image={require('../../../../assets/img/confirm_password.png')}
+          placeholder="confirme sua senha"
+          keyboardType="default"
+          secureTextEntry={true}
+          property="userConfirmePassword"
+          onChangeText={onChange}
+          value={userConfirmePassword}
+        />
+
         <View style={styles.btnEntrar}>
           <RoundedButton
-            text="Send to Email"
+            text="New Password"
             onPress={() => {
-              login()
-              navigation.navigate('RecieveNewPassword')
+              login();
+              navigation.navigate('HomeScreen')
 
             }}
           />
@@ -90,10 +127,9 @@ const styles = StyleSheet.create({
     top: '5%',
   },
   logoImg: {
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
     alignSelf: 'center',
-    marginTop: 50,
   },
   logoTxtContainer: {
     width: '100%',
@@ -111,7 +147,7 @@ const styles = StyleSheet.create({
   },
   frm: {
     width: '100%',
-    height: '40%',
+    height: '75%',
     backgroundColor: Color.bgColor,
     position: 'absolute',
     bottom: 0,
@@ -138,4 +174,4 @@ const styles = StyleSheet.create({
 }
 )
 
-export default RecuperarScreen;
+export default RecieveNewPassword;

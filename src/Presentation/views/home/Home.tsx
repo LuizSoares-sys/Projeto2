@@ -86,27 +86,26 @@ export const HomeScreen = () => {
           />
         </View>
         <View style={styles.frmRegister}>
-          <Text>
-            Crie sua conta
-          </Text>
+  <Text>
+    Crie sua conta
+  </Text>
 
-          <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-            <Text style={styles.txtRegister}> 
-              Registre-se
-            </Text>
-          </TouchableOpacity>
+  <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+    <Text style={styles.txtRegister}>
+      Registre-se
+    </Text>
+  </TouchableOpacity>
 
-          <Text> 👈</Text>
-          
-          <TouchableOpacity onPress={() => navigation.navigate('RecuperarSenha')}>
-            <Text style={styles.txtRegister}> 
-              Recuperar senha
-            </Text>
-          </TouchableOpacity>
+  <Text> 👈 </Text>
 
-          <Text> 👈</Text>
+  <TouchableOpacity onPress={() => navigation.navigate('RecuperarScreen')}>
+    <Text style={styles.txtRegister}>
+      Recuperar senha
+    </Text>
+  </TouchableOpacity>
 
-        </View>
+  <Text> 👈 </Text>
+</View>
       </View>
     </View>  
   );
@@ -184,6 +183,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginLeft: 5,
     color: Color.secondary,
+    
   },
 });
 

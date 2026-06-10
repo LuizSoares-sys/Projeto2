@@ -1,45 +1,58 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from "./src/Presentation/views/home/Home";
-import { RegisterScreen } from "./src/Presentation/views/register/Register"
-import { RecuperarSenha } from "./src/Presentation/views/RecuperarSenha/RecuperarSenha";
+import  HomeScreen  from "./src/Presentation/views/home/Home";
+import  RegisterScreen  from "./src/Presentation/views/register/Register";
+import  RecuperarScreen  from "./src/Presentation/views/RecuperarSenha/RecuperarSenha";
+import NovaSenhaScreen, { RecieveNewPassword } from './src/Presentation/views/NewPassword/NewPassword';
+
 
 export type RootStackParamList = {
   HomeScreen: undefined,
   RegisterScreen: undefined,
+  RecuperarScreen: undefined,
+  RecieveNewPassword: undefined
 }
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
 
-  return ( 
+  return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen 
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
 
-          name='HomeScreen' 
-          component={ HomeScreen } 
-          
+          name='HomeScreen'
+          component={HomeScreen}
+
         />
 
         <Stack.Screen
-        name="RegisterScreen"
-        component={ RegisterScreen }
-        options={{
-          headerShown: true, 
-          title:'Novo usuário'
-        }}
-
+          name="RecuperarScreen"
+          component={RecuperarScreen}
+          options={{
+            headerShown: true,
+            title: 'Recuperar senha'
+          }}
         />
+
         <Stack.Screen
-        name="RecuperarSenha"
-        component={ RecuperarSenha }
-        options={{
-          headerShown: true, 
-          title:'Recuperar Senha'
-        }}
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{
+            headerShown: true,
+            title: 'Novo usuário'
+          }}
+        />
+
+        <Stack.Screen
+          name="RecieveNewPassword"
+          component={RecieveNewPassword}
+          options={{
+            headerShown: true,
+            title: 'recebendo nova senha'
+          }}
 
         />
 
@@ -49,4 +62,3 @@ const App = () => {
 }
 
 export default App
- 
