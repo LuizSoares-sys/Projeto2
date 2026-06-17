@@ -1,64 +1,150 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import  HomeScreen  from "./src/Presentation/views/home/Home";
-import  RegisterScreen  from "./src/Presentation/views/register/Register";
-import  RecuperarScreen  from "./src/Presentation/views/RecuperarSenha/RecuperarSenha";
-import NovaSenhaScreen, { RecieveNewPassword } from './src/Presentation/views/NewPassword/NewPassword';
+import React, { useState, useRef} from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Button, Image, Dimensions } from "react-native";
+import { CameraView, useCameraPermissions} from "expo-camera";
+
+// Pegamos a largura e altura da tela do dispositivo SmartPhone, para garantir o tamanho da foto
+const {width, height} = Dimensions.get('window');
+
+export default function App() {
+    const [permission, requestPermission] = useCameraPermissions();
+    const [capturedImage, setCapturedImage] = useState<string | null>(null);
+    const cameraRef = useRef<any>(null);
+
+    if (!permission) {
+        return(
+            <View style={ styles.container}>
+                <Text style={styles.textLight}>
+                    Carregando permissões...
+                </Text>
+            </View>
+        );
+    }
+
+    if (!permission.granted) {
+        return(
+            <View style={styles.container}>
+                <Text style={{ textAlign: 'center', marginBottom: 10, color:'#FFF' }}>
+                    Precisamos da sua permissão para mostrar a câmera!
+                </Text>
+                <Button
+                onPress={requestPermission}
+                title="Conceder Permissão"
+                />
+            </View>
+
+        );
+    }
 
 
-export type RootStackParamList = {
-  HomeScreen: undefined,
-  RegisterScreen: undefined,
-  RecuperarScreen: undefined,
-  RecieveNewPassword: undefined
+const takePicture = async () => {
+    if (cameraRef.current) {
+        // skipProcessing garante que o Android processe a imagem antes de entregar o URI
+        const option = { quality: 0.8, skipProcessing: false};
+
+        const photo = await cameraRef.current.takePictureAsync(option);
+
+        if (photo && photo.uri) {
+            // Isso vai aparecer no terminal do VsCode
+            console.log('Foto tirada com sucesso! Caminho:', photo.uri);
+            setCapturedImage(photo.uri);
+            }
+        }
+    };
+
+    return(
+        <View style={styles.container}>
+            {capturedImage ? (
+                //Tela de preview da foto
+                <View style={styles.previewContainer}>
+                    <Image
+                        source={{ uri: capturedImage }}
+                        style={styles.preview}
+                        resizeMode="cover" // Garante que a foto preencha o espaço total do SmartPhone
+                    />
+                    <View style={styles.previewButtons}>
+                        <Button
+                            onPress={() => setCapturedImage(null)}
+                            title="Tirar outra foto!"
+                            />
+                </View>
+                </View>
+            ):(
+                //Tela da câmera
+                <View style={styles.cameraContainer}>
+                    <CameraView style={styles.camera} facing="front" ref={cameraRef} />
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                    style={ styles.button }
+                    onPress={takePicture}
+                    >
+                        <Text style={styles.textBtn}>
+                        Tirar Foto
+                        </Text>
+
+                    </TouchableOpacity>
+                </View>
+                </View>
+            )}
+            </View>
+    );
 }
 
-const Stack = createNativeStackNavigator();
+const styles= StyleSheet.create({
+    container:{
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: "#000",
+    },
+    textLight:{
+        color:'#FFF',
+        textAlign: 'center',
+    },
+    cameraContainer:{
+        flex: 1,
+        width: '100%',
+        position:'relative'
+    },
+    camera:{
+        flex: 1,
+        width: '100%',
+    },
+    buttonContainer:{
+        position:'relative',
+        bottom: 40,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        backgroundColor: 'transparent'
+    },
+    button:{
+        backgroundColor:'#fff',
+        paddingVertical:15,
+        paddingHorizontal: 30,
+        elevation: 5,
+        borderRadius: 30,
+    },
+    textBtn: {
+        fontSize: 16,
+        fontWeight:'bold',
+        color:'#000',
+    },
+    previewContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#00'
+    },
+    preview: {
+        //Definindo tamanhos fixos baseado na tela do celular
+        width: width * 0.85,
+        height: height * 0.70,
+        borderRadius: 12,
+    },
+    previewButtons: {
+        marginTop: 20,
+        width:'80%',
+    },
+    
 
-const App = () => {
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-
-          name='HomeScreen'
-          component={HomeScreen}
-
-        />
-
-        <Stack.Screen
-          name="RecuperarScreen"
-          component={RecuperarScreen}
-          options={{
-            headerShown: true,
-            title: 'Recuperar senha'
-          }}
-        />
-
-        <Stack.Screen
-          name="RegisterScreen"
-          component={RegisterScreen}
-          options={{
-            headerShown: true,
-            title: 'Novo usuário'
-          }}
-        />
-
-        <Stack.Screen
-          name="RecieveNewPassword"
-          component={RecieveNewPassword}
-          options={{
-            headerShown: true,
-            title: 'recebendo nova senha'
-          }}
-
-        />
-
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-}
-
-export default App
+});

@@ -20,3 +20,6 @@ npx expo install @react-navigation/native-stack
 ## Dica ##
 # Sempre que for instalar uma lib nativa #
 npx expo install 'Nome-da-lib'
+
+# Pacotes para GPS
+npx expo install expo-location

@@ -1,14 +1,25 @@
 import React, {useState} from "react";
+
 import { StyleSheet, View, Text, Image, TextInput, Button, ToastAndroid, Alert, Platform, Touchable, TouchableOpacity, KeyboardType } from 'react-native';
 
+
+
 // importação dos elementos de navegação
+
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../../../../App";
+
+import { RootStackParamList } from "../../../../Aula02_App";
+
 import { useNavigation } from "@react-navigation/native";
 
+
+
 //componentes
+
 import { Color } from "../../theme/AppTheme";
+
 import { CustomTextInput } from "../../Components/CustomTextInput";
+
 import { RoundedButton } from "../../Components/RoundedButton";
 //views models
 import useViewModel from './ViewModel';
@@ -40,7 +51,7 @@ export const HomeScreen = () => {
   return(
 <View style={styles.container}>
       <Image style = {styles.imageFundo}
-        source={require("../../../../assets/bg-smartphone.jpg")}/>
+        source = { require('../../../../assets/bg-smartphone.jpg') }/>
 
       <View style={styles.logoContainer}>
       <Image
@@ -78,6 +89,33 @@ export const HomeScreen = () => {
       value={userPassword}
       />
       
+      {/*
+<View style={styles.frmInput}>
+
+        <Image 
+        style={ styles.frmicon} 
+        source = { require('../../../../assets/img/user.png') }/>
+        
+        <TextInput 
+        style={styles.txtInput} 
+        placeholder="Digite seu email / Usuário" 
+        keyboardType='email-address'
+        />
+</View>   
+<View style={styles.frmInput}>
+
+        <Image 
+        style={ styles.frmicon} 
+        source = { require('../../../../assets/img/password.png') }/>
+        
+        <TextInput 
+        style={styles.txtInput}
+        placeholder="Digite sua senha..." 
+        keyboardType="default"
+        secureTextEntry={true}
+        />
+</View>
+        */}
         <View style={styles.btnEntrar }>
           <RoundedButton
           text="Entrar"
@@ -86,26 +124,29 @@ export const HomeScreen = () => {
           />
         </View>
         <View style={styles.frmRegister}>
-  <Text>
-    Crie sua conta
-  </Text>
+          <Text style={styles.frmText}>
+            Crie sua conta
+          </Text>
 
-  <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-    <Text style={styles.txtRegister}>
-      Registre-se
-    </Text>
-  </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+            <Text style={styles.txtRegister}> 
+              Registre-se
+            </Text>
+          </TouchableOpacity>
 
-  <Text> 👈 </Text>
+        </View>
+        <View style={styles.frmRecuperar}>
 
-  <TouchableOpacity onPress={() => navigation.navigate('RecuperarScreen')}>
-    <Text style={styles.txtRegister}>
-      Recuperar senha
-    </Text>
-  </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('RecuperarScreen')}>
+            <Text style={styles.txtRegister}> 
+               Esqueceu a senha? 
+            </Text>
+          </TouchableOpacity>
 
-  <Text> 👈 </Text>
-</View>
+          <Text style={styles.frmText}>  👈</Text>
+
+        </View>
+
       </View>
     </View>  
   );
@@ -153,7 +194,7 @@ const styles = StyleSheet.create({
   },
   frm:{
     width: '100%',
-    height: '40%',
+    height: '45%',
     backgroundColor: Color.bgColor,
     position: 'absolute',
     bottom: 0,
@@ -174,7 +215,8 @@ const styles = StyleSheet.create({
   frmRegister:{
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 15,
+    marginTop: 10,
+    
   },
   txtRegister:{
     fontStyle: 'italic',
@@ -183,11 +225,22 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginLeft: 5,
     color: Color.secondary,
-    
+    fontSize: 17
   },
+  frmTextSenha:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  frmRecuperar:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  frmText:{
+    fontSize: 17
+  }
 });
 
 //export default HomeScreen
  
 export default HomeScreen;
- 

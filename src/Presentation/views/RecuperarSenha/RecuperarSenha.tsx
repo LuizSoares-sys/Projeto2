@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, Image, } from 'react-native';
 //importação dos elementos de navegação
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "./../../../../App";
+import { RootStackParamList } from "../../../../Aula02_App";
 //componentes
 import { Color } from "../../theme/AppTheme";
 import { CustomTextInput } from "../../Components/CustomTextInput";
