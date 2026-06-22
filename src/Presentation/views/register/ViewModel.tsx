@@ -2,16 +2,21 @@ import React, { useState } from "react";
 
 const RegisterViewModel = () => {
 
-        const [ values, setValues] = useState({
-            userEmail: '',
-            userPassword:'',
-        });
+    const [values, setValues] = useState({
+        userToken: '',
+        userName: '',
+        userTrueName: '',
+        userEmail: '',
+        userPhone: '',
+        userPassword: '',
+        userConfirmePassword: '',
+    });
 
-        const onChange = ( property: string, value: any) => { 
-            setValues({ ...values, [property]: value })
-        }
+    const onChange = (property: string, value: any) => {
+        setValues({ ...values, [property]: value })
+    }
 
-    const login = () => { 
+    const login = () => {
         console.log(JSON.stringify(values))
     }
     return {
@@ -23,4 +28,3 @@ const RegisterViewModel = () => {
 }
 
 export default RegisterViewModel
- 

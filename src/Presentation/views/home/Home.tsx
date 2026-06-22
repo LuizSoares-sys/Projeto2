@@ -1,246 +1,139 @@
-import React, {useState} from "react";
-
-import { StyleSheet, View, Text, Image, TextInput, Button, ToastAndroid, Alert, Platform, Touchable, TouchableOpacity, KeyboardType } from 'react-native';
-
-
+import React, { useState } from "react";
+import { StyleSheet, View, Text, Image, TextInput, Button, ToastAndroid, Alert, Platform, Touchable, TouchableOpacity, ScrollView } from 'react-native';
 
 // importação dos elementos de navegação
-
 import { StackNavigationProp } from "@react-navigation/stack";
-
 import { RootStackParamList } from "../../../../Aula02_App";
-
 import { useNavigation } from "@react-navigation/native";
-
-
 
 //componentes
 
-import { Color } from "../../theme/AppTheme";
-
 import { CustomTextInput } from "../../Components/CustomTextInput";
-
 import { RoundedButton } from "../../Components/RoundedButton";
+import styles from "../../theme/HomeStyles";
 //views models
 import useViewModel from './ViewModel';
+
 
 export const HomeScreen = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const {userEmail, userPassword, onChange, login} = useViewModel();
+  const { userEmail, userPassword, onChange, login } = useViewModel();
 
   const testOS = () => {
-    if(Platform.OS === 'android'){
+    if (Platform.OS === 'android') {
 
       // Android: mostra o toast negativo
       ToastAndroid.show('Testando o Login! - Android', ToastAndroid.SHORT)
-    } 
+    }
     else if (Platform.OS === 'web') {
 
       // Navegador: Usa o alert do JS Classico
       alert('Testando o Login! - Web')
     }
-      else {
+    else {
 
       // iOS: Usa o Alert nativo do iPhone
-      Alert.alert('Aviso!','Testando o Login! - iPhone')
+      Alert.alert('Aviso!', 'Testando o Login! - iPhone')
     }
   };
 
-  return(
-<View style={styles.container}>
-      <Image style = {styles.imageFundo}
-        source = { require('../../../../assets/bg-smartphone.jpg') }/>
+  return (
+    <View style={styles.container}>
+      <Image style={styles.imageFundo}
+        source={require('../../../../assets/img/bg-smartphone.jpg')} />
 
       <View style={styles.logoContainer}>
-      <Image
-        style={styles.logoImg}
-        source={require("../../../../assets/img/logo.png")}
-      />
+        <Image
+          style={styles.logoImg}
+          source={require("../../../../assets/img/logo.png")}
+        />
         <View style={styles.logoTxtContainer} >
-          <Text style={ styles.logoTxt} >
-          Restaurante | Pizzaria Tito 😋
+          <Text style={styles.logoTxt} >
+            Restalrante | Pizzaria Tito 😋
           </Text>
         </View>
       </View>
-    <View style={styles.frm}>      
-      <Text style={ styles.frmTitle} >
-        Entrar
-      </Text>
+      <View style={styles.frm}>
 
-      <CustomTextInput
-      image={require('../../../../assets/img/user.png')}
-      placeholder="Digite seu Email / Usuario..."
-      keyboardType="email-address"
-      secureTextEntry={false}
-      property="userEmail"
-      onChangeText={onChange}
-      value={userEmail}
-      />
-
-      <CustomTextInput
-      image={require('../../../../assets/img/password.png')}
-      placeholder="Digite sua senha..."
-      keyboardType="default"
-      secureTextEntry={true}
-      property="userPassword"
-      onChangeText={onChange}
-      value={userPassword}
-      />
-      
-      {/*
-<View style={styles.frmInput}>
-
-        <Image 
-        style={ styles.frmicon} 
-        source = { require('../../../../assets/img/user.png') }/>
+        <ScrollView 
+        contentContainerStyle={{flexGrow: 1}}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
         
-        <TextInput 
-        style={styles.txtInput} 
-        placeholder="Digite seu email / Usuário" 
-        keyboardType='email-address'
-        />
-</View>   
-<View style={styles.frmInput}>
-
-        <Image 
-        style={ styles.frmicon} 
-        source = { require('../../../../assets/img/password.png') }/>
+        >
         
-        <TextInput 
-        style={styles.txtInput}
-        placeholder="Digite sua senha..." 
-        keyboardType="default"
-        secureTextEntry={true}
-        />
-</View>
-        */}
-        <View style={styles.btnEntrar }>
-          <RoundedButton
-          text="Entrar"
-          onPress={ () => login() }
-          //onPress={() => ToastAndroid.show('Entrando...', ToastAndroid.SHORT)}
+          <Text style={styles.frmTitle} >
+            Entrar
+          </Text>
+
+
+
+
+          <CustomTextInput
+            image={require('../../../../assets/img/user.png')}
+            placeholder="Digite seu Email / Usuario..."
+            keyboardType="email-address"
+            secureTextEntry={false}
+            property="userEmail"
+            onChangeText={onChange}
+            value={userEmail}
           />
-        </View>
-        <View style={styles.frmRegister}>
-          <Text style={styles.frmText}>
-            Crie sua conta
-          </Text>
 
-          <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-            <Text style={styles.txtRegister}> 
-              Registre-se
+          <CustomTextInput
+            image={require('../../../../assets/img/password.png')}
+            placeholder="Digite sua senha..."
+            keyboardType="default"
+            secureTextEntry={true}
+            property="userPassword"
+            onChangeText={onChange}
+            value={userPassword}
+          />
+
+          <View style={styles.btnEntrar}>
+            <RoundedButton
+              text="Entrar"
+              onPress={() => login()}
+            //onPress={() => ToastAndroid.show('Entrando...', ToastAndroid.SHORT)}
+            />
+          </View>
+          <View style={styles.frmRegister}>
+            <Text style={styles.frmText}>
+              Crie sua conta
             </Text>
-          </TouchableOpacity>
 
-        </View>
-        <View style={styles.frmRecuperar}>
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+              <Text style={styles.txtRegister}>
+                Registre-se
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('RecuperarScreen')}>
-            <Text style={styles.txtRegister}> 
-               Esqueceu a senha? 
+          </View>
+
+          <View style={styles.frmTextSenha}>
+            <Text style={styles.frmText}>
+              Esqueceu a senha?
             </Text>
-          </TouchableOpacity>
+          </View>
 
-          <Text style={styles.frmText}>  👈</Text>
+          <View style={styles.frmRecuperar}>
 
-        </View>
+            <TouchableOpacity onPress={() => navigation.navigate('RecuperarScreen')}>
+              <Text style={styles.txtRegister}>
+                Clique Aqui
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={styles.frmText}> casso tenha perdido 👈</Text>
+
+          </View>
+
+        </ScrollView>
 
       </View>
-    </View>  
+    </View>
   );
 };
- 
-// Folha de estilo
-const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-    backgroundColor: Color.bgBlack,
-    alignItems: 'center',
-    justifyContent:'center',
 
-  },
-  imageFundo:{
-    width: '100%',
-    height: '100%',
-    opacity: 0.6,
-    bottom: '30%',
-  },
-  logoContainer:{
-    position: 'absolute',
-    alignItems: 'center',
-    top: '15%',
-  },
-  logoImg:{
-    width: 150,
-    height: 150,
-    alignSelf: 'center',
-    transform: [{ rotateZ: '6deg' }],
-  },
-  logoTxtContainer:{
-    width: '110%',
-    height: 50,
-    marginTop: 15,
-    borderRadius: 15,
-    opacity: 0.85,        
-  },
-  logoTxt:{
-    color: Color.bgColor,
-    textAlign: 'center',
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginTop: 6,
-  },
-  frm:{
-    width: '100%',
-    height: '45%',
-    backgroundColor: Color.bgColor,
-    position: 'absolute',
-    bottom: 0,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
-    padding: 20,
-  },
-  frmTitle:{
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  btnEntrar:{
-    alignSelf: 'center',
-    width: 300,
-    marginTop: 30,
-    cursor: 'pointer',
-  },
-  frmRegister:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 10,
-    
-  },
-  txtRegister:{
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    borderBottomColor: Color.secondary,
-    borderBottomWidth: 1,
-    marginLeft: 5,
-    color: Color.secondary,
-    fontSize: 17
-  },
-  frmTextSenha:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  frmRecuperar:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  frmText:{
-    fontSize: 17
-  }
-});
-
-//export default HomeScreen
- 
 export default HomeScreen;

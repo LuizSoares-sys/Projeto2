@@ -1,208 +1,119 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, Platform, ToastAndroid } from 'react-native';
-import { Color } from "../../theme/AppTheme";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, Image, TextInput, ToastAndroid, Platform, TouchableOpacity } from 'react-native';
+
+//importação dos elementos de navegação
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./../../../../Aula02_App";
+//componentes
+import styles from "../../theme/RegisterStyles"
+import { CustomTextInput } from "../../Components/CustomTextInput";
 import { RoundedButton } from "../../Components/RoundedButton";
+//views models
+import useViewModel from './ViewModel';
 
 export const RegisterScreen = () => {
 
-    const testOS = () => {
-        if(Platform.OS === 'android'){
-            ToastAndroid.show('Testando o Cadastro! - Android', ToastAndroid.SHORT)
-        }
+  const { userTrueName, userName, userConfirmePassword, userPhone, userEmail, userPassword, onChange, login } = useViewModel();
+
+  const OS = () => {
+    if (Platform.OS === 'android') {
+
+      ToastAndroid.show('Cadastro feito! - Android', ToastAndroid.SHORT)
     }
+  };
+
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.imageFundo}
-        source={require("../../../../assets/img/chef.jpg")}
-      />
+      <Image style={styles.imageFundo}
+        source={require('../../../../assets/img/chef.jpg')} />
 
-      <View style={styles.imageProfileContainer}>
+      <View style={styles.logoContainer}>
         <Image
-          style={styles.imageProfile}
+          style={styles.logoImg}
           source={require("../../../../assets/img/user_image.png")}
         />
-
-        <Text style={styles.imageProfileText}>
-          Selecione uma imagem
-        </Text>
+        <View style={styles.logoTxtContainer} >
+          <Text style={styles.logoTxt} >
+            Selecione uma imagem
+          </Text>
+        </View>
       </View>
-
       <View style={styles.frm}>
-        <Text style={styles.frmTitle}>
+        <Text style={styles.frmTitle} >
           Registre-se
         </Text>
 
-        <View style={styles.frmInput}>
-          <Image
-            style={styles.frmIcon}
-            source={require("../../../../assets/img/user.png")}
-          />
+        <CustomTextInput
+          image={require('../../../../assets/img/user.png')}
+          placeholder="Digite seu Nome"
+          keyboardType="default"
+          secureTextEntry={false}
+          property="userName"
+          onChangeText={onChange}
+          value={userTrueName}
+        />
 
-          <TextInput
-            style={styles.txtInput}
-            placeholder="Digite seu Nome"
-          />
-        </View>
+        <CustomTextInput
+          image={require('../../../../assets/img/my_user.png')}
+          placeholder="Digite seu Nome de usuario"
+          keyboardType="default"
+          secureTextEntry={false}
+          property="userNameUser"
+          onChangeText={onChange}
+          value={userName}
+        />
 
-        <View style={styles.frmInput}>
-          <Image
-            style={styles.frmIcon}
-            source={require("../../../../assets/img/my_user.png")}
-          />
+        <CustomTextInput
+          image={require('../../../../assets/img/email.png')}
+          placeholder="Digite seu Email"
+          keyboardType="default"
+          secureTextEntry={false}
+          property="userEmail"
+          onChangeText={onChange}
+          value={userEmail}
+        />
+        <CustomTextInput
+          image={require('../../../../assets/img/phone.png')}
+          placeholder="Digite seu Telefone"
+          keyboardType="numeric"
+          secureTextEntry={false}
+          property="userPhone"
+          onChangeText={onChange}
+          value={userPhone}
+        />
+        <CustomTextInput
+          image={require('../../../../assets/img/password.png')}
+          placeholder="Digite sua senha..."
+          keyboardType="default"
+          secureTextEntry={false}
+          property="userPassword"
+          onChangeText={onChange}
+          value={userPassword}
+        />
 
-          <TextInput
-            style={styles.txtInput}
-            placeholder="Digite Nome de Usuário"
-          />
-        </View>
+        <CustomTextInput
+          image={require('../../../../assets/img/confirm_password.png')}
+          placeholder="confirme sua senha"
+          keyboardType="default"
+          secureTextEntry={true}
+          property="userConfirmePassword"
+          onChangeText={onChange}
+          value={userConfirmePassword}
+        />
 
-        <View style={styles.frmInput}>
-          <Image
-            style={styles.frmIcon}
-            source={require("../../../../assets/img/email.png")}
-          />
-
-          <TextInput
-            style={styles.txtInput}
-            placeholder="Digite seu Email"
-            keyboardType="email-address"
-          />
-        </View>
-
-        <View style={styles.frmInput}>
-          <Image
-            style={styles.frmIcon}
-            source={require("../../../../assets/img/phone.png")}
-          />
-
-          <TextInput
-            style={styles.txtInput}
-            placeholder="Digite seu Telefone"
-            keyboardType="phone-pad"
-          />
-        </View>
-
-        <View style={styles.frmInput}>
-          <Image
-            style={styles.frmIcon}
-            source={require("../../../../assets/img/password.png")}
-          />
-
-          <TextInput
-            style={styles.txtInput}
-            placeholder="Digite a senha"
-            secureTextEntry
-          />
-        </View>
-
-        <View style={styles.frmInput}>
-          <Image
-            style={styles.frmIcon}
-            source={require("../../../../assets/img/confirm_password.png")}
-          />
-
-          <TextInput
-            style={styles.txtInput}
-            placeholder="Confirme a senha"
-            secureTextEntry
-          />
-        </View>
-
-        <TouchableOpacity style={styles.btnRegister}>
+        <View style={styles.btnEntrar}>
           <RoundedButton
             text="Cadastre-se"
-            onPress={testOS}
+            onPress={() => login()}
           />
-        </TouchableOpacity>
+        </View>
       </View>
     </View>
-  );
-};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.bgBlack,
-  },
+  )
 
-  imageFundo: {
-    width: "100%",
-    height: 320,
-    opacity: 0.5,
-  },
+}
 
-  imageProfileContainer: {
-    position: "absolute",
-    top: 110,
-    width: "100%",
-    alignItems: "center",
-  },
-
-  imageProfile: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-
-  imageProfileText: {
-    color: "#FFF",
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: 15,
-  },
-
-  frm: {
-    flex: 1,
-    backgroundColor: Color.bgColor,
-    marginTop: -35,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
-    paddingHorizontal: 20,
-    paddingTop: 25,
-  },
-
-  frmTitle: {
-    fontSize: 34,
-    fontWeight: "bold",
-    marginBottom: 15,
-  },
-
-  frmInput: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 18,
-  },
-
-  frmIcon: {
-    width: 24,
-    height: 24,
-  },
-
-  txtInput: {
-    flex: 1,
-    marginLeft: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#CFCFCF",
-    paddingBottom: 8,
-  },
-
-  btnRegister: {
-    marginTop: 30,
-    backgroundColor: Color.primary,
-    height: 50,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  btnRegisterText: {
-    color: "#FFF",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
 
 export default RegisterScreen;
